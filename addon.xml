@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="screensaver.ngdrive.piframe"
+	name="PiFrame - Screensaver"
+	version="1.0"
+	provider-name="https://www.github.com/palaniraja">
+	<requires>
+		<import addon="xbmc.python" version="2.25.0"/>
+		<import addon="script.skin.helper.service" version="1.0.100"/>
+	</requires>
+	<extension point="xbmc.ui.screensaver" library="default.py"/>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en_US">PiFrame - Screensaver ....</summary>
+		<description lang="en_US">PiFrame - Screensaver ....</description>
+		<platform>all</platform>
+		<license>http://www.apache.org/licenses/LICENSE-2.0</license>
+		<!-- <forum></forum> -->
+		<source>https://github.com/palaniraja/piframe</source>
+		<news>1.0 (2018-07-05) - started</news>
+		<assets>
+			<icon>resources/icon.png</icon>
+			<fanart>resources/fanart.png</fanart>
+			<screenshot>resources/screenshot-1.png</screenshot>
+		</assets>
+	</extension>
+</addon>
