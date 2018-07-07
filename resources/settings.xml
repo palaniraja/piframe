@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-    
+	<setting id="path" type="folder" source="pictures" label="Image directory path"  default="" />
+    <setting id="RotateTime" type="enum" label="Duration in seconds" default="0" values="10|20|30|40|50|60|70|80|90|100|110|120"/>
+    <!-- <setting id="Randomize"  type="bool" label="Randomize" default="false"/>
+    <setting id="Animate"    type="bool" label="Animate" default="false"/> -->
 </settings>
