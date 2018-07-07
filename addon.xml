@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="screensaver.ngdrive.piframe"
+<addon 
+	id="screensaver.ngdrive.piframe"
 	name="PiFrame - Screensaver"
 	version="1.0"
 	provider-name="https://www.github.com/palaniraja">
@@ -9,8 +10,8 @@
 	</requires>
 	<extension point="xbmc.ui.screensaver" library="default.py"/>
 	<extension point="xbmc.addon.metadata">
-		<summary lang="en_US">PiFrame - Screensaver ....</summary>
-		<description lang="en_US">PiFrame - Screensaver ....</description>
+		<summary lang="en">Image Slideshow with additional info</summary>
+        <description lang="en">Addon to show images from a directory, recent first, also watch for changes in the directory to reload the slideshow</description>
 		<platform>all</platform>
 		<license>http://www.apache.org/licenses/LICENSE-2.0</license>
 		<!-- <forum></forum> -->

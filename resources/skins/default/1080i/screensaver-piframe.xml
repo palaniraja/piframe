@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window type="window">
+    <controls>
+        <!-- <control type="image">
+            <description>Overlay</description>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1920</width>
+            <height>1080</height>
+            <texture>blackbackground.png</texture>
+            <visible>!String.IsEqual(Window.Property(show-blackbackground),"false")</visible>
+        </control> -->
+        <control type="image" id="image">
+            <description>Fade image</description>
+            <posx>0</posx>
+            <posy>0</posy>
+            <!-- <fadetime>300</fadetime> -->
+            <aspectratio scalediffuse="false" align="center" aligny="center">scale</aspectratio>
+            <width>1280</width>
+            <height>780</height>
+            <texture></texture>
+            <!-- <animation effect="zoom" start="110" end="130" center="auto" time="25000" tween="cubic" easing="inout" condition="StringCompare(Window.Property(animation),panzoom)" pulse="true">Conditional</animation>
+            <animation effect="slide" start="-10,-10" end="20,20" time="9000" tween="cubic" easing="inout" condition="StringCompare(Window.Property(animation),panzoom)" pulse="true">Conditional</animation> -->
+        </control>
+        <control type="image">
+            <description>Overlay</description>
+            <posx>0</posx>
+            <posy>0</posy>
+            <!-- <colordiffuse>FFFF0000</colordiffuse> -->
+            <texture>fanart.png</texture>
+        </control>
+        <control type="grouplist">
+            <orientation>vertical</orientation>
+            <align>left</align>
+            <control type="label" id="imgTime">
+                <description>Time</description>
+                <!-- <posx>0</posx>
+                <posy>0</posy> -->
+                <align>left</align>
+                <font>font_MainMenu</font>
+                <shadowcolor>FFFF0000</shadowcolor>
+                <textcolor>whitesmoke</textcolor>
+
+                <height>300</height>
+                <width>auto</width>
+                <label>Picture Taken on</label>
+                <!-- <visible>String.IsEqual(Window.Property(clockfont),"fontmainmenu")+!String.IsEqual(Window.Property(hide-clock-info),"true")</visible> -->
+            </control>
+            <control type="label" id="cpuTemp">
+                <description>CPU Temp</description>
+                <align>left</align>
+                <font>font_MainMenu</font>
+                <shadowcolor>22000000</shadowcolor>
+                <textcolor>whitesmoke</textcolor>
+                <height>300</height>
+                <width>auto</width>
+                <label>CPU Temp</label>
+            </control>
+        </control>
+
+    </controls>
+</window>
