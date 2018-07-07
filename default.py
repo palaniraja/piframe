@@ -20,50 +20,27 @@ import subprocess
 import commands
 import cmd
 
+import calendar
+import time
+
 # import EXIFvfs
 
-# import xbmc, xbmcaddon, xbmcvfs, xbmcgui
 
 ADDON_ID = 'screensaver.ngdrive.piframe'
 addon = xbmcaddon.Addon(id=ADDON_ID)
 addon_path = (addon.getAddonInfo('path').decode('utf-8'))
 
 
-animation_duration = [2,10,20,30,40,50,60,70,80,90,100,110,120][int(addon.getSetting("duration"))] 
 image_directory_path = str(addon.getSetting("path")) 
+animation_duration = [2,10,20,30,40,50,60,70,80,90,100,110,120][int(addon.getSetting("duration"))] 
+reload_interval = [1,5,10,15,20,30,60][int(addon.getSetting("reloadInterval"))] 
+
+reload_interval_sec = reload_interval * 60
 
 xbmc.log("Addon path : " + str(addon_path), xbmc.LOGERROR)
-xbmc.log("Duration received from settings : " + str(animation_duration), xbmc.LOGERROR)
 xbmc.log("Path received from settings : " + str(image_directory_path), xbmc.LOGERROR)
-
-
-# https://stackoverflow.com/a/13151299/240255
-from threading import Timer
-
-class RepeatedTimer(object):
-    def __init__(self, interval, function, *args, **kwargs):
-        self._timer     = None
-        self.interval   = interval
-        self.function   = function
-        self.args       = args
-        self.kwargs     = kwargs
-        self.is_running = False
-        self.start()
-
-    def _run(self):
-        self.is_running = False
-        self.start()
-        self.function(*self.args, **self.kwargs)
-
-    def start(self):
-        if not self.is_running:
-            self._timer = Timer(self.interval, self._run)
-            self._timer.start()
-            self.is_running = True
-
-    def stop(self):
-        self._timer.cancel()
-        self.is_running = False
+xbmc.log("Duration received from settings : " + str(animation_duration), xbmc.LOGERROR)
+xbmc.log("Reload interval received from settings : " + str(reload_interval), xbmc.LOGERROR)
 
 
 
@@ -88,11 +65,12 @@ class Screensaver(xbmcgui.WindowXMLDialog):
         self.log('onInit')
         self.images = []
         self.currentIndex = 0
+        self.lastReloadTime = calendar.timegm(time.gmtime())
         self.exit_monitor = self.ExitMonitor(self.exit)
         self.background = self.getControl(32501)
         self.timeLabel = self.getControl(32502)
         self.cpuLabel = self.getControl(32503)
-        self.loadImages()
+        self.images = self.loadImages()
         msg = "Total images found: %s" % len(self.images)
         self.cpuLabel.setLabel(msg)
         self.log(msg)
@@ -100,15 +78,38 @@ class Screensaver(xbmcgui.WindowXMLDialog):
         if self.images:
             while not self.exit_monitor.abortRequested():
                 # rand_index = randint(0, len(self.images)-1)
+                
+
+                # Check whether we need to related the images
+                currentEpoch = calendar.timegm(time.gmtime())
+                diffEpoch = currentEpoch - self.lastReloadTime
+
+                self.log('lastReloadTime: %s currentEpoch%s'%(str(self.lastReloadTime), str(currentEpoch)))
+                self.log('Diff epoch %s'%str(diffEpoch))
+
+                if diffEpoch >= reload_interval_sec:
+                    self.log('time to reload the images')
+                    currentImages = self.loadImages()
+                    self.log('no. of images after reloading %s'%str(len(currentImages)))
+                    if set(self.images) == set(currentImages):
+                        self.log('same images set no need to reload')
+                    else: 
+                        self.log('images changed, so reseting image set with new, reset index to 0')
+                        self.images = currentImages
+                        self.currentIndex=0
+                # else:
+                #     imgFile = self.images[rand_index]
+                
                 rand_index = self.currentIndex
-                # imgFile = '%s%s'%(xbmc.translatePath(image_directory_path), self.images[rand_index])
                 imgFile = self.images[rand_index]
+                # imgFile = '%s%s'%(xbmc.translatePath(image_directory_path), self.images[rand_index])
+                
                 # self.log(imgFile)
 
                 # /opt/vc/bin/vcgencmd measure_temp | cut -d "=" -f2 | cut -d "'" -f1`
                 # vcgencmd measure_temp | cut -d "=" -f2
                 # cmdToRun = 'ls -l %s | wc -c'%xbmc.translatePath(image_directory_path)
-                
+
                 cmdToRun = 'date'
                 self.log('command to run (%s)'%cmdToRun)
                 # self.log(cmdToRun)
@@ -116,15 +117,15 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                 self.log('command output: %s'%str(result[1]))
 
                 # DATEFORMAT = xbmc.getRegion('dateshort')
+                timenow = datetime.now()
+                formatedTime = str(self.formatTime(timenow))
+                self.log('Dateformat: %s'%formatedTime)
 
-                
-                # self.log(self.run_command(cmdToRun))
 
-
-                self.timeLabel.setLabel(str(rand_index))
+                self.timeLabel.setLabel('%s of %s'%(str(rand_index+1),str(len(self.images))))
                 # self.cpuLabel.setLabel(self.images[rand_index])
                 # $INFO[System.GPUTemperature]
-                self.cpuLabel.setLabel(u'%s $INFO[System.CPUTemperature]'% str(result[1]))
+                self.cpuLabel.setLabel(u'%s $INFO[System.CPUTemperature]'% formatedTime)
                 # self.cpuLabel.setLabel(f"{datetime.datetime.now():%Y-%m-%d}") #py3
                 self.background.setImage(imgFile)
                 self.exit_monitor.waitForAbort(animation_duration)
@@ -133,6 +134,15 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                     self.currentIndex = 0
                 else:     
                     self.currentIndex = self.currentIndex + 1
+
+
+
+    def formatTime(self, timestamp):
+        if timestamp:
+            format = xbmc.getRegion('time').replace(':%S', '').replace('%H%H', '%H')
+            return timestamp.strftime(format)
+        else:
+            return '' 
 
 
     def exit(self):
@@ -150,18 +160,20 @@ class Screensaver(xbmcgui.WindowXMLDialog):
 
     def loadImages(self):
         self.log('inside load Images')
+        images = []
         if image_directory_path and xbmcvfs.exists(xbmc.translatePath(image_directory_path)):
             # for image in listdir(image_directory_path):
             #     # self.log(image)
             #     if isfile(join(image_directory_path, image)):
             #         self.images.append(image)
             # # xbmc.log(join(self.images), xbmc.LOGERROR)
-
-            self.images = filter(os.path.isfile, glob.glob(xbmc.translatePath(image_directory_path) + "*"))
-            self.images.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+            images = filter(os.path.isfile, glob.glob(xbmc.translatePath(image_directory_path) + "*"))
+            images.sort(key=lambda x: os.path.getmtime(x), reverse=True)
             # self.log(', '.join(self.images))
+            self.lastReloadTime = calendar.timegm(time.gmtime())
+            self.log('total image files %s' % str(len(images)))
 
-            self.log('total image files %s' % str(len(self.images)))
+        return images
 
 
 
