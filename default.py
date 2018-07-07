@@ -44,6 +44,7 @@ class Screensaver(xbmcgui.WindowXMLDialog):
     def onInit(self):
         self.log('onInit')
         self.images = []
+        self.currentIndex = 0
         self.exit_monitor = self.ExitMonitor(self.exit)
         self.background = self.getControl(32501)
         self.timeLabel = self.getControl(32502)
@@ -55,14 +56,21 @@ class Screensaver(xbmcgui.WindowXMLDialog):
 
         if self.images:
             while not self.exit_monitor.abortRequested():
-                rand_index = randint(0, len(self.images)-1)
+                # rand_index = randint(0, len(self.images)-1)
+                rand_index = self.currentIndex
+
                 imgFile = '%s%s'%(xbmc.translatePath(image_directory_path), self.images[rand_index])
                 self.log(imgFile)
                 self.timeLabel.setLabel(str(rand_index))
                 self.cpuLabel.setLabel(self.images[rand_index])
                 self.background.setImage(imgFile)
                 self.exit_monitor.waitForAbort(animation_duration)
-                
+                self.log(str(self.currentIndex))
+                self.log(str(len(self.images)))
+                if (self.currentIndex+1) >= len(self.images):
+                    self.currentIndex = 0
+                else:     
+                    self.currentIndex = self.currentIndex + 1
 
 
     def exit(self):
