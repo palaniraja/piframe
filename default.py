@@ -4,9 +4,17 @@
 import xbmcaddon
 import xbmcgui
 import xbmc
+import xbmcvfs
+
 import random
-import os
+from random import randint, shuffle
+
 from datetime import datetime
+
+import os
+from os import listdir
+from os.path import isfile, join
+
 
 # import xbmc, xbmcaddon, xbmcvfs, xbmcgui
 
@@ -15,21 +23,13 @@ addon = xbmcaddon.Addon(id=ADDON_ID)
 addon_path = (addon.getAddonInfo('path').decode('utf-8'))
 
 
-animation_duration = [10,20,30,40,50,60,70,80,90,100,110,120][int(addon.getSetting("duration"))] 
+animation_duration = [2,10,20,30,40,50,60,70,80,90,100,110,120][int(addon.getSetting("duration"))] 
 image_directory_path = str(addon.getSetting("path")) 
 
 xbmc.log("Addon path : " + str(addon_path), xbmc.LOGERROR)
 xbmc.log("Duration received from settings : " + str(animation_duration), xbmc.LOGERROR)
 xbmc.log("Path received from settings : " + str(image_directory_path), xbmc.LOGERROR)
 
-
-# if __name__ == '__main__':
-#     log('script started')
-#     import gui
-#     screensaver_gui = gui.Screensaver('default.xml', CWD, 'default')
-#     screensaver_gui.doModal()
-#     del screensaver_gui
-# log('script stopped')
 
 class Screensaver(xbmcgui.WindowXMLDialog):
 
@@ -43,28 +43,46 @@ class Screensaver(xbmcgui.WindowXMLDialog):
 
     def onInit(self):
         self.log('onInit')
-        # buffer = struct.pack('LLLL',0,1,0,0)
-        # dev = os.open('/dev/disp', os.O_RDWR)
-        # try:
-        #     fcntl.ioctl(dev, 0x0C, buffer)
-        # finally:
-        #     os.close(dev)
+        self.images = []
         self.exit_monitor = self.ExitMonitor(self.exit)
+        self.background = self.getControl(32501)
+        self.timeLabel = self.getControl(32502)
+        self.cpuLabel = self.getControl(32503)
+        self.loadImages()
+        msg = "Total images found: %s" % len(self.images)
+        self.cpuLabel.setLabel(msg)
+        self.log(msg)
+
+        if self.images:
+            while not self.exit_monitor.abortRequested():
+                rand_index = randint(0, len(self.images)-1)
+                imgFile = '%s%s'%(xbmc.translatePath(image_directory_path), self.images[rand_index])
+                self.log(imgFile)
+                self.timeLabel.setLabel(str(rand_index))
+                self.cpuLabel.setLabel(self.images[rand_index])
+                self.background.setImage(imgFile)
+                self.exit_monitor.waitForAbort(animation_duration)
+                
+
 
     def exit(self):
         self.abort_requested = True
         self.exit_monitor = None
-        # buffer = struct.pack('LLLL',0,0,0,0)
-        # dev = os.open('/dev/disp', os.O_RDWR)
-        # try:
-        #     fcntl.ioctl(dev, 0x0C, buffer)
-        # finally:
-        #     os.close(dev)
         self.log('exit')
         self.close()
 
     def log(self, msg):
-        xbmc.log(u'PiFrame: %s' % msg)
+        xbmc.log(u'PiFrame: %s' % msg, xbmc.LOGERROR)
+
+
+    def loadImages(self):
+        self.log('inside load Images')
+        if image_directory_path and xbmcvfs.exists(xbmc.translatePath(image_directory_path)):
+            for image in listdir(image_directory_path):
+                # self.log(image)
+                if isfile(join(image_directory_path, image)):
+                    self.images.append(image)
+            # xbmc.log(join(self.images), xbmc.LOGERROR)
 
 
 if __name__ == '__main__':
