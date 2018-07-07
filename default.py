@@ -14,6 +14,7 @@ from datetime import datetime
 import os
 from os import listdir
 from os.path import isfile, join
+import glob
 
 
 # import xbmc, xbmcaddon, xbmcvfs, xbmcgui
@@ -59,14 +60,14 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                 # rand_index = randint(0, len(self.images)-1)
                 rand_index = self.currentIndex
 
-                imgFile = '%s%s'%(xbmc.translatePath(image_directory_path), self.images[rand_index])
+                # imgFile = '%s%s'%(xbmc.translatePath(image_directory_path), self.images[rand_index])
+                imgFile = self.images[rand_index]
                 self.log(imgFile)
                 self.timeLabel.setLabel(str(rand_index))
                 self.cpuLabel.setLabel(self.images[rand_index])
                 self.background.setImage(imgFile)
                 self.exit_monitor.waitForAbort(animation_duration)
-                self.log(str(self.currentIndex))
-                self.log(str(len(self.images)))
+
                 if (self.currentIndex+1) >= len(self.images):
                     self.currentIndex = 0
                 else:     
@@ -86,12 +87,18 @@ class Screensaver(xbmcgui.WindowXMLDialog):
     def loadImages(self):
         self.log('inside load Images')
         if image_directory_path and xbmcvfs.exists(xbmc.translatePath(image_directory_path)):
-            for image in listdir(image_directory_path):
-                # self.log(image)
-                if isfile(join(image_directory_path, image)):
-                    self.images.append(image)
-            # xbmc.log(join(self.images), xbmc.LOGERROR)
+            # for image in listdir(image_directory_path):
+            #     # self.log(image)
+            #     if isfile(join(image_directory_path, image)):
+            #         self.images.append(image)
+            # # xbmc.log(join(self.images), xbmc.LOGERROR)
 
+            self.images = filter(os.path.isfile, glob.glob(xbmc.translatePath(image_directory_path) + "*"))
+            self.images.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+            # self.log(', '.join(self.images))
+
+            
+            self.log('total image files %s' % str(len(self.images)))
 
 if __name__ == '__main__':
     screensaver = Screensaver(
