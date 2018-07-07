@@ -73,6 +73,7 @@ class Screensaver(xbmcgui.WindowXMLDialog):
         self.background = self.getControl(32501)
         self.timeLabel = self.getControl(32502)
         self.cpuLabel = self.getControl(32503)
+        # self.container = self.getControl(32500)
         self.images = self.loadImages()
         msg = "Total images found: %s" % len(self.images)
         self.cpuLabel.setLabel(msg)
@@ -136,13 +137,14 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                     exiftags = EXIFvfs.process_file(xbmcfile, details=False, stop_tag='DateTimeOriginal')
                     if exiftags.has_key('EXIF DateTimeOriginal'):
                         imgDateTime = str(exiftags['EXIF DateTimeOriginal']).decode('utf-8')
-                        self.log('imagetime %s'%imgDateTime)
+                        self.log('imagetime (%s)'%imgDateTime)
                         # sometimes exif date returns useless data, probably no date set on camera
                         if imgDateTime == '0000:00:00 00:00:00':
                             imgDateTime = ''
                         else:
                             try:
                                 # localize the date format
+                                # imgDateTime="2018:06:23 13:03:35"
                                 date = imgDateTime[:10].split(':')
                                 # time = imgDateTime[10:]
                                 if DATEFORMAT[1] == 'm':
@@ -162,7 +164,11 @@ class Screensaver(xbmcgui.WindowXMLDialog):
 
 
                 # $INFO[System.GPUTemperature]
-                self.cpuLabel.setLabel(u'%s %s $INFO[System.CPUTemperature]'% (imgDateTime,formatedTime))
+                self.cpuLabel.setLabel(u'%s\r\n%s\r\n$INFO[System.CPUTemperature]'% (imgDateTime,formatedTime))
+
+                # Randomize meta label position to avoid burn-in
+                # self.container.setPosition(115, 120)
+
                 # self.cpuLabel.setLabel(f"{datetime.datetime.now():%Y-%m-%d}") #py3
                 self.background.setImage(imgFile)
                 self.exit_monitor.waitForAbort(animation_duration)
