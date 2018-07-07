@@ -23,7 +23,10 @@ import cmd
 import calendar
 import time
 
-# import EXIFvfs
+import EXIFvfs
+from iptcinfovfs import IPTCInfo
+from XMPvfs import XMP_Tags
+
 
 
 ADDON_ID = 'screensaver.ngdrive.piframe'
@@ -124,8 +127,42 @@ class Screensaver(xbmcgui.WindowXMLDialog):
 
                 self.timeLabel.setLabel('%s of %s'%(str(rand_index+1),str(len(self.images))))
                 # self.cpuLabel.setLabel(self.images[rand_index])
+                
+                # EXIF image date
+                imgDateTime = ''
+                exif = False
+                try:
+                    xbmcfile = xbmcvfs.File(imgFile)
+                    exiftags = EXIFvfs.process_file(xbmcfile, details=False, stop_tag='DateTimeOriginal')
+                    if exiftags.has_key('EXIF DateTimeOriginal'):
+                        imgDateTime = str(exiftags['EXIF DateTimeOriginal']).decode('utf-8')
+                        self.log('imagetime %s'%imgDateTime)
+                        # sometimes exif date returns useless data, probably no date set on camera
+                        if imgDateTime == '0000:00:00 00:00:00':
+                            imgDateTime = ''
+                        else:
+                            try:
+                                # localize the date format
+                                date = imgDateTime[:10].split(':')
+                                # time = imgDateTime[10:]
+                                if DATEFORMAT[1] == 'm':
+                                    imgDateTime = date[1] + '-' + date[2] + '-' + date[0] + '  ' # + time
+                                elif DATEFORMAT[1] == 'd':
+                                    imgDateTime = date[2] + '-' + date[1] + '-' + date[0] + '  ' # + time
+                                else:
+                                    imgDateTime = date[0] + '-' + date[1] + '-' + date[2] + '  ' # + time
+                            except:
+                                self.log('exiferror 1')
+                                pass
+                            exif = True
+                except:
+                    self.log('exiferror 2')
+                    pass
+
+
+
                 # $INFO[System.GPUTemperature]
-                self.cpuLabel.setLabel(u'%s $INFO[System.CPUTemperature]'% formatedTime)
+                self.cpuLabel.setLabel(u'%s %s $INFO[System.CPUTemperature]'% (imgDateTime,formatedTime))
                 # self.cpuLabel.setLabel(f"{datetime.datetime.now():%Y-%m-%d}") #py3
                 self.background.setImage(imgFile)
                 self.exit_monitor.waitForAbort(animation_duration)
