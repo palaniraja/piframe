@@ -2,7 +2,7 @@
 <addon 
 	id="screensaver.ngdrive.piframe"
 	name="PiFrame - Screensaver"
-	version="1.1"
+	version="1.2"
 	provider-name="https://www.github.com/palaniraja">
 	<requires>
 		<import addon="xbmc.python" version="2.25.0"/>
@@ -16,13 +16,15 @@
 		<license>http://www.apache.org/licenses/LICENSE-2.0</license>
 		<!-- <forum></forum> -->
 		<source>https://github.com/palaniraja/piframe</source>
-		<news>1.1 (2018-07-08) - Release
+		<news>1.2 (2018-07-08) - updated theme to match display
+1.1 (2018-07-08) - Release
 1.0 (2018-07-05) - Release
 1.0 (2018-07-05) - started</news>
 		<assets>
 			<icon>resources/icon.png</icon>
 			<fanart>resources/fanart.png</fanart>
 			<screenshot>resources/screenshot-1.png</screenshot>
+			<screenshot>resources/screenshot-2.png</screenshot>
 		</assets>
 	</extension>
 </addon>

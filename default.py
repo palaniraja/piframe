@@ -250,7 +250,7 @@ class Screensaver(xbmcgui.WindowXMLDialog):
         self.close()
 
     def log(self, msg):
-        xbmc.log('PiFrame: %s' % msg, xbmc.LOGERROR)
+        xbmc.log('PiFrame: %s' % msg, xbmc.LOGDEBUG)
 
     def run_command(self, cmd):
         p = subprocess.Popen(["echo", "hello world"], stdout=subprocess.PIPE)

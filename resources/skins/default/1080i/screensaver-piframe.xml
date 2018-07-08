@@ -34,7 +34,7 @@
             <control type="grouplist">
                 <orientation>vertical</orientation>
                 <posx>50</posx>
-                <posy>680</posy>
+                <posy>880</posy>
                 <align>left</align>
                 <left>100</left>
                 <right>100</right>
