@@ -38,12 +38,22 @@ image_directory_path = str(addon.getSetting("path"))
 animation_duration = [2,10,20,30,40,50,60,70,80,90,100,110,120][int(addon.getSetting("duration"))] 
 reload_interval = [1,5,10,15,20,30,60][int(addon.getSetting("reloadInterval"))] 
 
+showTime = addon.getSetting("showTime")
+showImgCount = addon.getSetting("showImgCount")
+showExifDate = addon.getSetting("showExifDate")
+showCpuTemp = addon.getSetting("showCpuTemp")
+showWeather = addon.getSetting("showWeather")
+
+
 reload_interval_sec = reload_interval * 60
 
 xbmc.log("Addon path : " + str(addon_path), xbmc.LOGERROR)
 xbmc.log("Path received from settings : " + str(image_directory_path), xbmc.LOGERROR)
 xbmc.log("Duration received from settings : " + str(animation_duration), xbmc.LOGERROR)
 xbmc.log("Reload interval received from settings : " + str(reload_interval), xbmc.LOGERROR)
+
+xbmc.log('Meta settings received: time: %s imgcount: %s exif: %s cputemp:%s weather: %s' % (str(showTime),str(showImgCount),str(showExifDate),str(showCpuTemp),str(showWeather)), xbmc.LOGERROR)
+xbmc.log('type of showTime: %s'%str(type(showTime)), xbmc.LOGERROR)
 
 
 
@@ -70,25 +80,30 @@ class Screensaver(xbmcgui.WindowXMLDialog):
         self.currentIndex = 0
         self.lastReloadTime = calendar.timegm(time.gmtime())
         self.exit_monitor = self.ExitMonitor(self.exit)
+
+        # time,we,tot,date,cpu
         self.background = self.getControl(32501)
         self.timeLabel = self.getControl(32502)
-        self.cpuLabel = self.getControl(32503)
+        self.weatherLabel = self.getControl(32503)
+        self.totalLabel = self.getControl(32504)
+        self.exifdateLabel = self.getControl(32505)
+        self.cpuLabel = self.getControl(32506)
         # self.container = self.getControl(32500)
+        
         self.images = self.loadImages()
         msg = "Total images found: %s" % len(self.images)
-        self.cpuLabel.setLabel(msg)
+        
         self.log(msg)
 
         if self.images:
             while not self.exit_monitor.abortRequested():
                 # rand_index = randint(0, len(self.images)-1)
-                
 
                 # Check whether we need to related the images
                 currentEpoch = calendar.timegm(time.gmtime())
                 diffEpoch = currentEpoch - self.lastReloadTime
 
-                self.log('lastReloadTime: %s currentEpoch%s'%(str(self.lastReloadTime), str(currentEpoch)))
+                self.log('lastReloadTime: %s currentEpoch: %s'%(str(self.lastReloadTime), str(currentEpoch)))
                 self.log('Diff epoch %s'%str(diffEpoch))
 
                 if diffEpoch >= reload_interval_sec:
@@ -126,7 +141,7 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                 self.log('Dateformat: %s'%formatedTime)
 
 
-                self.timeLabel.setLabel('%s of %s'%(str(rand_index+1),str(len(self.images))))
+                
                 # self.cpuLabel.setLabel(self.images[rand_index])
                 
                 # EXIF image date
@@ -137,40 +152,65 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                     exiftags = EXIFvfs.process_file(xbmcfile, details=False, stop_tag='DateTimeOriginal')
                     if exiftags.has_key('EXIF DateTimeOriginal'):
                         imgDateTime = str(exiftags['EXIF DateTimeOriginal']).decode('utf-8')
-                        self.log('imagetime (%s)'%imgDateTime)
+                        self.log('imagetime (%s)'%str(imgDateTime))
                         # sometimes exif date returns useless data, probably no date set on camera
                         if imgDateTime == '0000:00:00 00:00:00':
                             imgDateTime = ''
                         else:
-                            try:
-                                # localize the date format
-                                # imgDateTime="2018:06:23 13:03:35"
-                                date = imgDateTime[:10].split(':')
-                                # time = imgDateTime[10:]
-                                if DATEFORMAT[1] == 'm':
-                                    imgDateTime = date[1] + '-' + date[2] + '-' + date[0] + '  ' # + time
-                                elif DATEFORMAT[1] == 'd':
-                                    imgDateTime = date[2] + '-' + date[1] + '-' + date[0] + '  ' # + time
-                                else:
-                                    imgDateTime = date[0] + '-' + date[1] + '-' + date[2] + '  ' # + time
-                            except:
-                                self.log('exiferror 1')
-                                pass
+                            idate = imgDateTime[:10].split(':')
+                            # self.log(idate)
+                            imgDateTime = "-".join(idate[::-1]) # reverse list and join 
                             exif = True
+                        self.log(imgDateTime)
                 except:
                     self.log('exiferror 2')
                     pass
 
 
 
-                # $INFO[System.GPUTemperature]
-                self.cpuLabel.setLabel(u'%s\r\n%s\r\n$INFO[System.CPUTemperature]'% (imgDateTime,formatedTime))
+                # Setting content and visibility
+
+                self.background.setImage(imgFile)
+
+                if showTime == "true":
+                    self.timeLabel.setLabel('%s'%formatedTime)
+                    self.timeLabel.setVisible(True)
+                else:
+                    self.timeLabel.setVisible(False)
+
+                if showImgCount == "true":
+                    self.totalLabel.setLabel('%s of %s'%(str(rand_index+1),str(len(self.images))))
+                    self.totalLabel.setVisible(True)
+                else:
+                    self.totalLabel.setVisible(False)
+
+                if showCpuTemp == "true":
+                    self.cpuLabel.setLabel(u'$INFO[System.CPUTemperature]') # $INFO[System.GPUTemperature]
+                    self.cpuLabel.setVisible(True)
+                else:
+                    self.cpuLabel.setVisible(False)
+
+
+                if showExifDate == "true":
+                    self.exifdateLabel.setLabel('%s'%imgDateTime)
+                    self.exifdateLabel.setVisible(True)
+                else:
+                    self.exifdateLabel.setVisible(False)
+
+                if showWeather == "true":
+                    self.weatherLabel.setLabel(u'$INFO[System.CPUTemperature]')
+                    self.weatherLabel.setAlign("right")
+                    self.weatherLabel.setVisible(True)
+                else:
+                    self.weatherLabel.setVisible(False)
+                
+                
+                
 
                 # Randomize meta label position to avoid burn-in
                 # self.container.setPosition(115, 120)
 
                 # self.cpuLabel.setLabel(f"{datetime.datetime.now():%Y-%m-%d}") #py3
-                self.background.setImage(imgFile)
                 self.exit_monitor.waitForAbort(animation_duration)
 
                 if (self.currentIndex+1) >= len(self.images):

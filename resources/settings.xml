@@ -3,6 +3,11 @@
 	<setting id="path" type="folder" source="pictures" label="Image directory path"  default="" />
     <setting id="duration" type="enum" label="Duration in seconds" default="1" values="2|10|20|30|40|50|60|70|80|90|100|110|120"/>
     <setting id="reloadInterval" type="enum" label="Reload Images interval in minutes" default="3" values="1|5|10|15|20|30|60"/>
+    <setting label="Show Time" type="bool" id="showTime" default="true"/>
+    <setting label="Show Image Count" type="bool" id="showImgCount" default="true"/>
+    <setting label="Show EXIF Date" type="bool" id="showExifDate" default="true"/>
+    <setting label="Show CPU Temp" type="bool" id="showCpuTemp" default="true"/>
+    <setting label="Show Weather" type="bool" id="showWeather" default="false"/>
     <!-- <setting id="randomize"  type="bool" label="Randomize" default="false"/>
     <setting id="animate"    type="bool" label="Animate" default="false"/> -->
 </settings>

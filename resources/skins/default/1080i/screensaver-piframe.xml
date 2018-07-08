@@ -1,65 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window type="window">
     <controls>
-        <!-- <control type="image">
+        <!-- <control type="image" id="323232">
             <description>Overlay</description>
             <posx>0</posx>
             <posy>0</posy>
-            <width>1920</width>
-            <height>1080</height>
-            <texture>blackbackground.png</texture>
-            <visible>!String.IsEqual(Window.Property(show-blackbackground),"false")</visible>
+            <colordiffuse>FFFF0000</colordiffuse>
+            <texture>fanart.png</texture>
         </control> -->
-        <control type="image" id="323232">
-            <description>Overlay</description>
-            <posx>0</posx>
-            <posy>0</posy>
-            <!-- <colordiffuse>FFFF0000</colordiffuse> -->
-            <!-- <texture>fanart.png</texture> -->
-        </control>
-        
         <control type="image" id="32501">
-            <description>Fade image</description>
+            <description>Image loaded dynamically</description>
             <posx>0</posx>
             <posy>0</posy>
             <fadetime>300</fadetime>
             <aspectratio scalediffuse="false" align="center" aligny="center">keep</aspectratio>
-            <!-- <width>1920</width>
-            <height>1080</height>
-             --><texture></texture>
+            <texture></texture>
+        </control>
+        <control type="label" id="32506">
+            <description>CPU Temp</description>
+            <align>left</align>
+            <aligny>center</aligny>
+            <font>font37</font>
+            <shadowcolor>FFBB6556</shadowcolor>
+            <textcolor>FFECE764</textcolor>
+            <height>80</height>
+            <width>1024</width>
+            <left>100</left>
+            <right>100</right>
+            <wrapmultiline>true</wrapmultiline>
         </control>
         <control type="grouplist" id="32500">
             <orientation>vertical</orientation>
             <posx>50</posx>
-            <posy>450</posy>
+            <posy>400</posy>
             <align>left</align>
+            <right>100</right>
+            <width>1024</width>
             <control type="label" id="32502">
                 <description>Time</description>
                 <align>right</align>
+                <aligny>center</aligny>
+                <font>font_MainMenu</font>
+                <shadowcolor>FFFF0000</shadowcolor>
+                <textcolor>FFECE764</textcolor>
+                <height>60</height>
+                <width>1024</width>
+            </control>
+            <control type="label" id="32503">
+                <description>Weather</description>
+                <align>right</align>
+                <aligny>center</aligny>
                 <font>font37</font>
                 <shadowcolor>FFFF0000</shadowcolor>
                 <textcolor>whitesmoke</textcolor>
-                <!-- <width>0</width>
-                <height>0</height> -->
                 <height>40</height>
-                <width>auto</width>
-                <!-- <label>Picture Taken on</label> -->
-                <!-- <visible>String.IsEqual(Window.Property(clockfont),"fontmainmenu")+!String.IsEqual(Window.Property(hide-clock-info),"true")</visible> -->
+                <width>1024</width>
             </control>
-            <control type="label" id="32503">
-                <description>CPU Temp</description>
+            <control type="label" id="32504">
+                <description>Total no. of images</description>
                 <align>right</align>
+                <aligny>center</aligny>
                 <font>font37</font>
-                <shadowcolor>FFBB6556</shadowcolor>
-                <textcolor>FFECE764</textcolor>
-                <height>100</height>
-                <width>auto</width>
-                <!-- <width>0</width>
-                <height>0</height> -->
-                <wrapmultiline>true</wrapmultiline>
-                <!-- <label>CPU Temp</label> -->
+                <shadowcolor>FF222222</shadowcolor>
+                <textcolor>FFEEEEEE</textcolor>
+                <height>60</height>
+                <width>1024</width>
+            </control>
+            <control type="grouplist">
+                <orientation>vertical</orientation>
+                <control type="label" id="32505">
+                    <description>Date Taken</description>
+                    <align>right</align>
+                    <aligny>center</aligny>
+                    <font>font37</font>
+                    <textcolor>FFFF0000</textcolor>
+                    <shadowcolor>FFECE764</shadowcolor>
+                    <height>80</height>
+                    <width>1024</width>
+                    <!-- <wrapmultiline>true</wrapmultiline> -->
+                </control>
             </control>
         </control>
-
     </controls>
 </window>
