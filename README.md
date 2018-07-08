@@ -11,11 +11,11 @@ A simple screensaver to display pictures of a folder, along with some meta data.
 
 * DONE - Settings - Filepath, duration of slideshow
 * PARTIAL - Display CPU Temp, recent download date
-* PARTIAL - Image with meta label
+* DONE - Image with meta label
 * DONE - Slideshow
 * DONE - Reload images on changes in dir
 
-### Known issue
+### Known issues
 
 * Slideshow functionality was not working, if weather info enabled
 * Not happy with meta label placements
