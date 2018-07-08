@@ -16,70 +16,77 @@
             <aspectratio scalediffuse="false" align="center" aligny="center">keep</aspectratio>
             <texture></texture>
         </control>
-        <control type="label" id="32506">
+        <control type="group" id="32500">
+            <control type="label" id="32506">
             <description>CPU Temp</description>
+            <posy>50</posy>
             <align>left</align>
             <aligny>center</aligny>
             <font>font37</font>
             <shadowcolor>FFBB6556</shadowcolor>
             <textcolor>FFECE764</textcolor>
             <height>80</height>
-            <width>1024</width>
+            <width>auto</width>
             <left>100</left>
             <right>100</right>
             <wrapmultiline>true</wrapmultiline>
         </control>
-        <control type="grouplist" id="32500">
-            <orientation>vertical</orientation>
-            <posx>50</posx>
-            <posy>400</posy>
-            <align>left</align>
-            <right>100</right>
-            <width>1024</width>
-            <control type="label" id="32502">
-                <description>Time</description>
-                <align>right</align>
-                <aligny>center</aligny>
-                <font>font_MainMenu</font>
-                <shadowcolor>FFFF0000</shadowcolor>
-                <textcolor>FFECE764</textcolor>
-                <height>60</height>
-                <width>1024</width>
-            </control>
-            <control type="label" id="32503">
-                <description>Weather</description>
-                <align>right</align>
-                <aligny>center</aligny>
-                <font>font37</font>
-                <shadowcolor>FFFF0000</shadowcolor>
-                <textcolor>whitesmoke</textcolor>
-                <height>40</height>
-                <width>1024</width>
-            </control>
-            <control type="label" id="32504">
-                <description>Total no. of images</description>
-                <align>right</align>
-                <aligny>center</aligny>
-                <font>font37</font>
-                <shadowcolor>FF222222</shadowcolor>
-                <textcolor>FFEEEEEE</textcolor>
-                <height>60</height>
-                <width>1024</width>
-            </control>
             <control type="grouplist">
                 <orientation>vertical</orientation>
-                <control type="label" id="32505">
-                    <description>Date Taken</description>
+                <posx>50</posx>
+                <posy>680</posy>
+                <align>left</align>
+                <left>100</left>
+                <right>100</right>
+                <width>auto</width>
+                <control type="label" id="32502">
+                    <description>Time</description>
+                    <align>right</align>
+                    <aligny>center</aligny>
+                    <font>font_MainMenu</font>
+                    <shadowcolor>FFFF0000</shadowcolor>
+                    <textcolor>FFECE764</textcolor>
+                    <height>60</height>
+                    <width>auto</width>
+                </control>
+                <control type="label" id="32503">
+                    <description>Weather</description>
                     <align>right</align>
                     <aligny>center</aligny>
                     <font>font37</font>
-                    <textcolor>FFFF0000</textcolor>
-                    <shadowcolor>FFECE764</shadowcolor>
-                    <height>80</height>
-                    <width>1024</width>
-                    <!-- <wrapmultiline>true</wrapmultiline> -->
+                    <shadowcolor>FFFF0000</shadowcolor>
+                    <textcolor>whitesmoke</textcolor>
+                    <height>40</height>
+                    <width>auto</width>
+                </control>
+                <control type="label" id="32504">
+                    <description>Total no. of images</description>
+                    <align>right</align>
+                    <aligny>center</aligny>
+                    <font>font37</font>
+                    <shadowcolor>FF222222</shadowcolor>
+                    <textcolor>FFEEEEEE</textcolor>
+                    <height>60</height>
+                    <width>auto</width>
+                </control>
+                <control type="grouplist">
+                    <orientation>vertical</orientation>
+                    <posx>50</posx>
+                    <posy>600</posy>
+                    <control type="label" id="32505">
+                        <description>Date Taken</description>
+                        <align>right</align>
+                        <aligny>center</aligny>
+                        <font>font37</font>
+                        <textcolor>FFFF0000</textcolor>
+                        <shadowcolor>FFECE764</shadowcolor>
+                        <height>80</height>
+                        <width>auto</width>
+                        <!-- <wrapmultiline>true</wrapmultiline> -->
+                    </control>
                 </control>
             </control>
         </control>
+
     </controls>
 </window>

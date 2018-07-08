@@ -88,8 +88,14 @@ class Screensaver(xbmcgui.WindowXMLDialog):
         self.totalLabel = self.getControl(32504)
         self.exifdateLabel = self.getControl(32505)
         self.cpuLabel = self.getControl(32506)
-        # self.container = self.getControl(32500)
-        
+        self.container = self.getControl(32500)
+
+
+        self.height = self.container.getHeight()
+        self.width = self.container.getWidth()
+        # xbmc.log(str(self.height), xbmc.LOGERROR)
+        self.log('width:%s height %s'%(str(self.width), str(self.height)))
+
         self.images = self.loadImages()
         msg = "Total images found: %s" % len(self.images)
         
@@ -191,6 +197,7 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                     self.cpuLabel.setVisible(False)
 
 
+                # self.exifdateLabel.setAlign("Left")
                 if showExifDate == "true":
                     self.exifdateLabel.setLabel('%s'%imgDateTime)
                     self.exifdateLabel.setVisible(True)
@@ -205,6 +212,14 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                     self.weatherLabel.setVisible(False)
                 
                 
+                # positioning group container
+
+                if rand_index%2 == 0:
+                    posX = 50
+                else:
+                    posX = (self.width-850)
+
+                self.container.setPosition(posX, 0)
                 
 
                 # Randomize meta label position to avoid burn-in
