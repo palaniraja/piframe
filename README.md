@@ -1,6 +1,9 @@
 ## Kodi/XBMC screensaver addon
 
-A simple screensaver to display pictures of a folder along with EXIF date and Pi CPU temp
+A simple screensaver to display pictures of a folder along with EXIF date and Pi CPU temp.
+
+
+> **NOTE**: This is a part of larger project check branch `complete-package` for complete info
 
 [Download Latest Release - v1.3](https://github.com/palaniraja/piframe/releases)
 
@@ -15,6 +18,10 @@ A simple screensaver to display pictures of a folder along with EXIF date and Pi
 * Display CPU Temp, Total no. of images
 * Image with meta label (exif creation date)
 * Reload images on changes in dir
+
+
+
+
 
 ### Known issues
 
