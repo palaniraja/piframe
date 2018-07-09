@@ -120,6 +120,15 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                         self.log('same images set no need to reload')
                     else: 
                         self.log('images changed, so reseting image set with new, reset index to 0')
+                        # xbmc.ActivateScreensaver()
+                        # xbmc.executebuiltin("RunAddon(screensaver.ngdrive.piframe)")
+                        # xbmc.executebuiltin("ActivateScreensaver()")
+                        # self.exit()
+                        # xbmc.executebuiltin("StopScript(screensaver.ngdrive.piframe)")
+                        # xbmc.StopScript(ADDON_ID)
+                        # xbmc.executebuiltin("PageUp()")
+                        xbmc.executebuiltin("PlayerControl(Stop)")
+                        xbmcgui.Dialog().notification("New Images Downloaded", "Will reload with new images", '', 0) 
                         self.images = currentImages
                         self.currentIndex=0
                 # else:
@@ -229,7 +238,7 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                 self.exit_monitor.waitForAbort(animation_duration)
 
                 if (self.currentIndex+1) >= len(self.images):
-                    self.currentIndex = 0
+                    self.currentIndex = 0                    
                 else:     
                     self.currentIndex = self.currentIndex + 1
 
