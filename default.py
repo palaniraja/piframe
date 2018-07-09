@@ -214,8 +214,9 @@ class Screensaver(xbmcgui.WindowXMLDialog):
                     self.exifdateLabel.setVisible(False)
 
                 if showWeather == "true":
-                    self.weatherLabel.setLabel(u'$INFO[Weather.Temperature] - $INFO[Weather.Conditions]')
-                    self.weatherLabel.setAlign("right")
+                    # $INFO[Weather.Temperature] - $INFO[Weather.Conditions]
+                    # self.weatherLabel.setLabel("$INFO[Weather.Conditions]")
+                    # self.weatherLabel.setAlign("right")
                     self.weatherLabel.setVisible(True)
                 else:
                     self.weatherLabel.setVisible(False)

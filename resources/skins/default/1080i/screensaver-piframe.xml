@@ -58,6 +58,7 @@
                     <textcolor>whitesmoke</textcolor>
                     <height>40</height>
                     <width>auto</width>
+                    <label>$INFO[Weather.Temperature] - $INFO[Weather.Conditions]</label>
                 </control>
                 <control type="label" id="32504">
                     <description>Total no. of images</description>
