@@ -16,5 +16,17 @@
   * [Kodi Screensaver addon](kodi-addon) - To display the images downloaded via node script
 
 
+## TODO
+
+  * Install script to do the following
+    * Download/clone the project
+    * Install kodi, logger, node
+    * Add node to PATH
+    * Ask the user to place their privatekey.json in node script folder
+    * Update node index.js with the path
+    * Setup cron job
+    * Inform the user 
+        * Path to screensaver.ngdrive.piframe.zip for installation
+        * Path for the image download folder _node-script/files_ to setup addon
 
 
