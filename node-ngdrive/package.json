@@ -1,0 +1,16 @@
+{
+  "name": "ngdrive",
+  "version": "1.0.0",
+  "description": "node js google api for drive",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "palaniraja",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "batch": "^0.6.1",
+    "googleapis": "^32.0.0"
+  }
+}
