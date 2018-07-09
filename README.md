@@ -1,5 +1,11 @@
 # PiFrame - Custom Digital Photo frame setup for RaspberryPi
 
+This is my duck-taped solution to my requirement
+
+* Use Raspberry pi for digital photo frame
+* Allow family members to upload images for display remotely (via Google Drive)
+* Auto download and restart the slideshow as a screensaver when new images uploaded
+* Shutdown device if it is hot
 
 ## Hardware
 
@@ -25,8 +31,10 @@
     * Ask the user to place their privatekey.json in node script folder
     * Update node index.js with the path
     * Setup cron job
-    * Inform the user 
+    * Instruction for the user 
         * Path to screensaver.ngdrive.piframe.zip for installation
         * Path for the image download folder _node-script/files_ to setup addon
+  * Find a way to turn off LCD backlight when shutting down
+
 
 
