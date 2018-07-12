@@ -1,6 +1,6 @@
 # PiFrame - Custom Digital Photo frame setup for RaspberryPi
 
-This is my duck-taped solution to my requirement
+This is my duct-taped solution to my requirement
 
 * Use Raspberry pi for digital photo frame
 * Allow family members to upload images for display remotely (via Google Drive)
